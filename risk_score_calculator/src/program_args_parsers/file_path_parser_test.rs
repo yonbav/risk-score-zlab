@@ -19,8 +19,11 @@ mod file_path_parser_test {
         assert_eq!(result.h1_dqb1, "02:01");
         assert_eq!(result.h2_dqa1, "03:0X");
         assert_eq!(result.h2_dqb1, "03:02");
-        assert_eq!(result.other_alleles[0].locus, "rs233");
-        assert_eq!(result.other_alleles[0].variants[0], "A");
-        assert_eq!(result.other_alleles[0].variants[1], "G");
+        assert_eq!(result.non_hla_alleles[0].locus, "rs233");
+        assert_eq!(result.non_hla_alleles[0].variants[0], "A");
+        assert_eq!(result.non_hla_alleles[0].variants[1], "G");
+        assert_eq!(result.other_hla_alleles[0].locus, "rs111");
+        assert_eq!(result.other_hla_alleles[0].variants[0], "C");
+        assert_eq!(result.other_hla_alleles[0].variants[1], "A");
     }
 }
