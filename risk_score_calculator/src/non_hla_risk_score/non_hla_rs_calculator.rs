@@ -5,7 +5,16 @@ use std::iter::FromIterator;
 
 
 pub fn calculate_risk_score(alleles: &Vec<RsAlleles>) -> f32 {
-    return alleles.into_iter().map(|allele| get_allele_beta(allele)).sum::<f32>();
+    let alleles_per_haplotype = get_alleles_per_haplotype(alleles);
+    return alleles_per_haplotype.into_iter().map(|allele| get_allele_beta(&allele)).sum::<f32>();
+}
+
+fn get_alleles_per_haplotype(alleles: &Vec<RsAlleles>) -> Vec<RsAlleles> {
+    return alleles.iter().flat_map(|allele| get_allele_per_haplotype(allele)).collect();
+}
+
+fn get_allele_per_haplotype(allele: &RsAlleles) -> Vec<RsAlleles> {
+    return allele.variants.iter().map(|current_variant| RsAlleles{ locus: allele.locus.clone(), variants: vec![String::from(current_variant)] }).collect()
 }
 
 fn get_allele_beta(allele: &RsAlleles) -> f32 {
@@ -36,5 +45,5 @@ fn get_allele_beta(allele: &RsAlleles) -> f32 {
             ]
         )
     );
-    return if non_hla_score.contains_key(allele) { non_hla_score[allele] } else  { 0.0 }
+    return if non_hla_score.contains_key(allele) { non_hla_score[allele] } else { 0.0 }
 }
