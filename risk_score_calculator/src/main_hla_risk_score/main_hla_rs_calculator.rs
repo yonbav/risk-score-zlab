@@ -1,3 +1,5 @@
-pub fn calculate_risk_score(a: i32, b: i32) -> Result<i32, String> {
-    return Ok(a + b);
+use crate::program_args_parsers::input_structures::Alleles;
+
+pub fn calculate_risk_score(_alleles: &Alleles) -> f32 {
+    return 0.1;
 }

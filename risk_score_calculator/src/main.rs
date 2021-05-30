@@ -14,19 +14,19 @@ use std::env;
 fn main() {
     let args = env::args().collect();
     let alleles = file_path_parser::get_alleles_from_args(args);
-    let main_hla_result = main_hla_rs_calculator::calculate_risk_score(1, 2);
-    let other_hla_result = other_hla_rs_calculator::calculate_risk_score(3,4);
-    let non_hla_result = non_hla_rs_calculator::calculate_risk_score(5,6);
+    let other_hla_result = other_hla_rs_calculator::calculate_risk_score(&alleles.non_hla_alleles);
+    let non_hla_result = non_hla_rs_calculator::calculate_risk_score(&alleles.other_hla_alleles);
+    let main_hla_result = main_hla_rs_calculator::calculate_risk_score(&alleles);
     print_result_message(main_hla_result, other_hla_result, non_hla_result);
 }
 
-fn print_result_message(main_hla_result: Result<i32, String>, other_hla_result: Result<i32, String>, non_hla_result: Result<i32, String>) {
+fn print_result_message(main_hla_result: f32, other_hla_result: f32, non_hla_result: f32) {
     let message = format!(r#"
     genetic risk calculator
     ========================
     main_hla: {},
     other_hla_result: {}, 
     non_hla_result:: {}. "# ,
-    main_hla_result.unwrap(), other_hla_result.unwrap(), non_hla_result.unwrap());
+    main_hla_result, other_hla_result, non_hla_result);
     println!("{}", message);
 }

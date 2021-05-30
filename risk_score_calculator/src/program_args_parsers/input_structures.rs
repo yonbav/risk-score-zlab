@@ -8,7 +8,7 @@ pub struct Alleles {
     pub other_hla_alleles: Vec<RsAlleles>
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
 pub struct RsAlleles {
     pub locus: String,
     pub variants: Vec<String>
