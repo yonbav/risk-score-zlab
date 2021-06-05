@@ -1,7 +1,10 @@
 #[cfg(test)]
-mod non_hla_rs_calculator_test {
-    use crate::non_hla_rs_calculator;
+mod rs_risk_calculator_test {
+    use crate::rs_risk_calculator;
     use crate::program_args_parsers::input_structures::RsAlleles;
+    use std::array::IntoIter;
+    use std::iter::FromIterator;
+    use std::collections::HashMap;
 
     #[test]
     fn calculate_risk_score_test_when_locus_fit_in_one_allele() {
@@ -11,7 +14,8 @@ mod non_hla_rs_calculator_test {
                 variants: vec![String::from("GC")]
             }
         ];
-        let result = non_hla_rs_calculator::calculate_risk_score(&alleles);
+        let scores = get_rs_scores();
+        let result = rs_risk_calculator::calculate_risk_score(&alleles, scores);
         let expected = 1.78;
         assert!((result - expected).abs() < 0.0001)
     }
@@ -28,7 +32,8 @@ mod non_hla_rs_calculator_test {
                 variants: vec![String::from("A"), String::from("G")]
             }
         ];
-        let result = non_hla_rs_calculator::calculate_risk_score(&alleles);
+        let scores = get_rs_scores();
+        let result = rs_risk_calculator::calculate_risk_score(&alleles, scores);
         let expected = 0.0;
         assert!((result - expected).abs() < 0.0001)
     }
@@ -41,8 +46,20 @@ mod non_hla_rs_calculator_test {
                 variants: vec![String::from("GC"), String::from("GC")]
             }
         ];
-        let result = non_hla_rs_calculator::calculate_risk_score(&alleles);
+        let scores = get_rs_scores();
+        let result = rs_risk_calculator::calculate_risk_score(&alleles, scores);
         let expected = 3.56;
         assert!((result - expected).abs() < 0.0001)
+    }
+
+    fn get_rs_scores() -> HashMap<RsAlleles, f32> {
+        return HashMap::<_, _>::from_iter(
+            IntoIter::new(
+                [
+                    (RsAlleles { locus: String::from("rs540653847"), variants: vec![String::from("GC")] }, 1.78),
+                    (RsAlleles { locus: String::from("rs9271346"), variants: vec![String::from("T")] }, 1.69)
+                ]
+            )
+        );
     }
 }

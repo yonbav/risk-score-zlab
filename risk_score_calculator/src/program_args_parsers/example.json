@@ -4,13 +4,13 @@
     "h2_dqa1": "03:0X",
     "h2_dqb1": "03:02",
     "non_hla_alleles": [ {
-            "locus": "rs233",
-            "variants": ["A", "G"]
+            "locus": "rs540653847",
+            "variants": ["A", "GC"]
         }
     ],
     "other_hla_alleles": [ {
-            "locus": "rs111",
-            "variants": ["C", "A"]
+            "locus": "rs9271346",
+            "variants": ["T", "T"]
         }
     ]
 }

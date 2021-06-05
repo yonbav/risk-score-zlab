@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod main_hla_rs_calculator_test {
-    use crate::main_hla_rs_calculator;
+    use crate::haplotype_risk_calculator;
     use crate::program_args_parsers::input_structures::Alleles;
 
     #[test]
@@ -13,7 +13,7 @@ mod main_hla_rs_calculator_test {
             non_hla_alleles: Vec::new(),
             other_hla_alleles: Vec::new(),
         };
-        let result = main_hla_rs_calculator::calculate_risk_score(&alleles);
+        let result = haplotype_risk_calculator::calculate_risk_score(&alleles);
         assert_eq!(result, 0.1);
     }
 }
