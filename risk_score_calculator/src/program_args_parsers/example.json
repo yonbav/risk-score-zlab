@@ -9,8 +9,8 @@
         }
     ],
     "other_hla_alleles": [ {
-            "locus": "rs9271346",
-            "variants": ["T", "T"]
+            "locus": "rs3842753",
+            "variants": ["G", "G"]
         }
     ]
 }
