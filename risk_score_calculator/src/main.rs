@@ -15,9 +15,9 @@ use std::env;
 fn main() {
     let args = env::args().collect();
     let alleles = file_path_parser::get_alleles_from_args(args);
-    let other_hla_result = rs_risk_calculator::calculate_risk_score(&alleles.non_hla_alleles, get_other_hla_scores());
-    let non_hla_result = rs_risk_calculator::calculate_risk_score(&alleles.other_hla_alleles, get_non_hla_scores());
-    let main_hla_result = haplotype_risk_calculator::calculate_risk_score(&alleles);
+    let other_hla_result = rs_risk_calculator::calculate_risk_score(&alleles.non_hla_alleles, get_hla_rs_scores());
+    let non_hla_result = rs_risk_calculator::calculate_risk_score(&alleles.other_hla_alleles, get_non_hla_rs_scores());
+    let main_hla_result = haplotype_risk_calculator::calculate_risk_score(&alleles, get_hla_haplotype_scores());
     print_result_message(main_hla_result, other_hla_result, non_hla_result);
 }
 
@@ -32,7 +32,31 @@ fn print_result_message(main_hla_result: f32, other_hla_result: f32, non_hla_res
     println!("{}", message);
 }
 
-fn get_other_hla_scores() -> HashMap<RsAlleles, f32> {
+fn get_hla_haplotype_scores() -> HashMap<String, f32> {
+    let main_hla_haplotype_scores: HashMap<String, f32> = HashMap::<_, _>::from_iter(
+        IntoIter::new(
+            [
+                (String::from("03:0X-03:02") , 2.08),
+                (String::from("01:02-06:02") , 1.39),
+                (String::from("05:01-02:01") , 1.26),
+                (String::from("02:01-02:02") , 0.48),
+                (String::from("05:05-03:01") , -0.03),
+                (String::from("01:0X-05:01") , -0.46),
+                (String::from("03:0X-03:01") , -0.63),
+                (String::from("01:03-06:03") , -0.65),
+                (String::from("02:01-03:03") , -0.76),
+                (String::from("04:01-04:02") , -0.89),
+                (String::from("01:0X-05:03") , -1.31),
+                (String::from("03:02-03:03") , -1.43),
+                (String::from("01:02-06:09") , -2.21),
+                (String::from("01:03-06:01") , -2.41)
+            ]
+        )
+    );
+    return main_hla_haplotype_scores; 
+}
+
+fn get_hla_rs_scores() -> HashMap<RsAlleles, f32> {
     let other_hla_score: HashMap<RsAlleles, f32> = HashMap::<_, _>::from_iter(
         IntoIter::new(
             [
@@ -63,7 +87,7 @@ fn get_other_hla_scores() -> HashMap<RsAlleles, f32> {
     return other_hla_score;
 }
 
-fn get_non_hla_scores() -> HashMap<RsAlleles, f32> {
+fn get_non_hla_rs_scores() -> HashMap<RsAlleles, f32> {
     let non_hla_score: HashMap<RsAlleles, f32> = HashMap::<_, _>::from_iter(
         IntoIter::new(
             [
@@ -75,15 +99,16 @@ fn get_non_hla_scores() -> HashMap<RsAlleles, f32> {
                 (RsAlleles { locus: String::from("rs9924471"), variants: vec![String::from("A")] }, 0.22),
                 (RsAlleles { locus: String::from("rs4759229"), variants: vec![String::from("A")] }, 0.22),
                 (RsAlleles { locus: String::from("rs1893217"), variants: vec![String::from("G")] }, 0.19),
+                (RsAlleles { locus: String::from("rs72928038"), variants: vec![String::from("A")] }, 0.18),
                 (RsAlleles { locus: String::from("rs60888743"), variants: vec![String::from("A")] }, 0.18),
-                (RsAlleles { locus: String::from("rs11170466"), variants: vec![String::from("A")] }, 0.18),
-                (RsAlleles { locus: String::from("rs9981624"), variants: vec![String::from("T")] }, 0.17),
-                (RsAlleles { locus: String::from("rs9388489"), variants: vec![String::from("C")] }, 0.17),
-                (RsAlleles { locus: String::from("rs5763779"), variants: vec![String::from("A")] }, 0.16),
-                (RsAlleles { locus: String::from("rs425105"), variants: vec![String::from("A")] }, 0.15),
-                (RsAlleles { locus: String::from("rs72727394"), variants: vec![String::from("T")] }, 0.15),
-                (RsAlleles { locus: String::from("rs17388568"), variants: vec![String::from("T")] }, 0.14),
-                (RsAlleles { locus: String::from("rs1615504"), variants: vec![String::from("A")] }, 0.12),
+                (RsAlleles { locus: String::from("rs11170466"), variants: vec![String::from("T")] }, 0.17),
+                (RsAlleles { locus: String::from("rs9981624"), variants: vec![String::from("C")] }, 0.17),
+                (RsAlleles { locus: String::from("rs9388489"), variants: vec![String::from("A")] }, 0.16),
+                (RsAlleles { locus: String::from("rs5763779"), variants: vec![String::from("A")] }, 0.15),
+                (RsAlleles { locus: String::from("rs425105"), variants: vec![String::from("T")] }, 0.15),
+                (RsAlleles { locus: String::from("rs72727394"), variants: vec![String::from("T")] }, 0.14),
+                (RsAlleles { locus: String::from("rs17388568"), variants: vec![String::from("A")] }, 0.12),
+                (RsAlleles { locus: String::from("rs1615504"), variants: vec![String::from("T")] }, 0.12),
                 (RsAlleles { locus: String::from("rs6476839"), variants: vec![String::from("T")] }, 0.11),
                 (RsAlleles { locus: String::from("rs9585056"), variants: vec![String::from("C")] }, 0.11),
                 (RsAlleles { locus: String::from("rs229541"), variants: vec![String::from("A")] }, 0.10),
