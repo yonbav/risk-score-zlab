@@ -7,18 +7,49 @@ mod main_hla_rs_calculator_test {
     use std::iter::FromIterator;
 
     #[test]
-    fn calculate_risk_score_test() {
+    fn calculate_risk_score_test_when_no_allele_fits_score() {
         let alleles = Alleles{
-            h1_dqa1: String::from(""),
-            h1_dqb1: String::from(""),
-            h2_dqa1: String::from(""),
-            h2_dqb1: String::from(""),
+            h1_dqa1: String::from("03:0X"),
+            h1_dqb1: String::from("03:01"),
+            h2_dqa1: String::from("02:04"),
+            h2_dqb1: String::from("06:01"),
             non_hla_alleles: Vec::new(),
             other_hla_alleles: Vec::new(),
         };
         let scores = get_hla_haplotype_scores();
         let result = haplotype_risk_calculator::calculate_risk_score(&alleles, scores);
-        assert_eq!(result, 0.1);
+        assert_eq!(result, 0.0);
+    }
+
+    #[test]
+    fn calculate_risk_score_test_when_one_allele_fits_score() {
+        let alleles = Alleles{
+            h1_dqa1: String::from("03:0X"),
+            h1_dqb1: String::from("03:02"),
+            h2_dqa1: String::from("02:04"),
+            h2_dqb1: String::from("06:01"),
+            non_hla_alleles: Vec::new(),
+            other_hla_alleles: Vec::new(),
+        };
+        let scores = get_hla_haplotype_scores();
+        let result = haplotype_risk_calculator::calculate_risk_score(&alleles, scores);
+        assert_eq!(result, 2.08);
+    }
+
+    #[test]
+    fn calculate_risk_score_test_when_both_allele_fits_score() {
+        let alleles = Alleles{
+            h1_dqa1: String::from("03:0X"),
+            h1_dqb1: String::from("03:02"),
+            h2_dqa1: String::from("01:03"),
+            h2_dqb1: String::from("06:01"),
+            non_hla_alleles: Vec::new(),
+            other_hla_alleles: Vec::new(),
+        };
+        let scores = get_hla_haplotype_scores();
+        let result = haplotype_risk_calculator::calculate_risk_score(&alleles, scores);
+        let rounded_result = (result * 100.0).round() / 100.0;
+        assert_eq!(rounded_result, -0.33);
     }
 
     fn get_hla_haplotype_scores() -> HashMap<String, f32> {
