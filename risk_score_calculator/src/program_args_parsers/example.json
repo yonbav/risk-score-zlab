@@ -3,6 +3,11 @@
     "h1_dqb1": "02:01",
     "h2_dqa1": "03:0X",
     "h2_dqb1": "03:02",
+    "main_hla_alleles": [ {
+            "locus": "rs117806464",
+            "variants": ["A", "T"]
+        }
+    ],
     "non_hla_alleles": [ {
             "locus": "rs540653847",
             "variants": ["A", "GC"]

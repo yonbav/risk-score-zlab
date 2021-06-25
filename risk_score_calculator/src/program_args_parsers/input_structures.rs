@@ -5,6 +5,7 @@ pub struct Alleles {
     pub h2_dqa1: String,
     pub h2_dqb1: String,
     pub non_hla_alleles: Vec<RsAlleles>,
+    pub main_hla_alleles: Vec<RsAlleles>,
     pub other_hla_alleles: Vec<RsAlleles>
 }
 

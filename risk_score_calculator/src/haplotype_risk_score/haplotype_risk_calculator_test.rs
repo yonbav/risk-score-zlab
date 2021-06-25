@@ -13,6 +13,7 @@ mod main_hla_rs_calculator_test {
             h1_dqb1: String::from("03:01"),
             h2_dqa1: String::from("02:04"),
             h2_dqb1: String::from("06:01"),
+            main_hla_alleles: Vec::new(),
             non_hla_alleles: Vec::new(),
             other_hla_alleles: Vec::new(),
         };
@@ -28,6 +29,7 @@ mod main_hla_rs_calculator_test {
             h1_dqb1: String::from("03:02"),
             h2_dqa1: String::from("02:04"),
             h2_dqb1: String::from("06:01"),
+            main_hla_alleles: Vec::new(),
             non_hla_alleles: Vec::new(),
             other_hla_alleles: Vec::new(),
         };
@@ -43,6 +45,7 @@ mod main_hla_rs_calculator_test {
             h1_dqb1: String::from("03:02"),
             h2_dqa1: String::from("01:03"),
             h2_dqb1: String::from("06:01"),
+            main_hla_alleles: Vec::new(),
             non_hla_alleles: Vec::new(),
             other_hla_alleles: Vec::new(),
         };
